@@ -31,6 +31,9 @@ void IceButtonBoard::Init(uint8_t mcp23017Address, int interruptPin)
 	_mcpController->writeRegister(MCP23017Register::IPOL_A, 0x00);
 	_mcpController->writeRegister(MCP23017Register::IPOL_B, 0x00);
 
+	for (int i = 0; i < IBB_NUMBER_BUTTONS; i++) {
+		ConfigureButton(i, IBB_DEFAULT_DEBOUNCE_TIME, ICEBUTTON_DOWN);
+	}
 
 	pinMode(_mcInterruptPin, INPUT_PULLUP);
 	attachInterrupt(digitalPinToInterrupt(_mcInterruptPin), McpButtonInterruptFunction, FALLING);
@@ -99,12 +102,13 @@ uint8_t IceButtonBoard::getLastInterruptPinValue()
 	uint8_t intPin = getLastInterruptPin();
 	if (intPin != MCP23017_INT_ERR) {
 		uint8_t intcapreg = regForPin(intPin, MCP23017_INTCAPA, MCP23017_INTCAPB);
-		uint8_t bit = bitForPin(intPin);
+		uint8_t bit = bitForPin(intPin);;
 		return (_mcpController->readRegister(intcapreg) >> bit) & (0x01);
 	}
 
 	return MCP23017_INT_ERR;
 }
+
 uint8_t IceButtonBoard::bitForPin(uint8_t pin)
 {
 	return pin % 8;
@@ -114,7 +118,6 @@ uint8_t IceButtonBoard::regForPin(uint8_t pin, uint8_t portAaddr, uint8_t portBa
 {
 	return (pin < 8) ? portAaddr : portBaddr;
 }
-
 
 
 IceButtonEvent IceButtonBoard::Process()

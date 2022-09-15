@@ -1,5 +1,7 @@
 /16Buttons_MCP23017-backups
 /Software/ButtonBoardLib/__vm
 /Software/ButtonBoardLib/Release
+/Software/ButtonBoardLib/Debug
 /Software/ButtonBoardLib/ButtonBoardLib.vcxproj.user
 /Software/ButtonBoardLib/.vs
+/Hardware/16Buttons_MCP23017/16Buttons_MCP23017-backups

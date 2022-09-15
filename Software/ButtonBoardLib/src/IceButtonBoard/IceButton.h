@@ -10,7 +10,7 @@ enum IceButtonAction {
 };
 
 typedef struct {
-	uint8_t buttonID = -1;
+	int buttonID = -1;
 	IceButtonAction action;
 }IceButtonEvent;
 
